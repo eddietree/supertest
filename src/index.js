@@ -1,5 +1,7 @@
 var shell = require("game-shell")()
 
+//var test = require(['js/Player'])();
+
 var context
   , player_x = 250
   , player_y = 250
