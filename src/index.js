@@ -15,15 +15,14 @@ shell.bind("move-down", "down", "S")
 //Fired when document is loaded
 shell.on("init", function() {
   var canvas = document.createElement("canvas")
-  canvas.width = 500
-  canvas.height = 500
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
   shell.element.appendChild(canvas)
   context = canvas.getContext("2d")
 })
 
 //Fired once per game tick
 shell.on("tick", function() {
-  console.log("Tick")
   if(shell.wasDown("move-left")) {
     player_x -= 1
   }
@@ -38,10 +37,16 @@ shell.on("tick", function() {
   }
 })
 
+shell.on("resize", function(newWidth, newHeight) {
+  var canvas = document.getElementsByTagName("canvas")[0];
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
 //Render a frame
 shell.on("render", function(frame_time) {
   context.fillStyle = "#000"
-  context.fillRect(0, 0, 500, 500)
+  context.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
   context.fillStyle = "#f00"
   context.fillRect(player_x-10, player_y-10, 20, 20)
