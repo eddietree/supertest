@@ -11,14 +11,19 @@ var App = function()
 App.prototype.init = function() {
 	console.log("init!");
 
-	var crystal = require("./crystal");
-	
-	this.crystal = new crystal();
-	console.log(this.crystal);
-	this.crystal.render();
+	this.items = [ 
+		require("./crystal"),
+	];
+
+	this.items.forEach( function(item) {
+		item.init();
+	});
 };
 
 App.prototype.update = function() {
+	this.items.forEach( function(item) {
+		item.update();
+	});
 	//console.log("update!");
 };
 
@@ -28,12 +33,16 @@ App.prototype.clearScreen = function() {
 };
 
 App.prototype.render = function() {
+
 	this.clearScreen();
 
-	context.fillStyle = "#f00";
-  	context.fillRect(100,100, 20, 20);
+	// render items
+	this.items.forEach( function(item) {
+		item.render();
+	});
 
-	//console.log("render!");
+	//context.fillStyle = "#f00";
+  	//context.fillRect(100,100, 20, 20);
 };
 
 App.prototype.resize = function(width,height) {

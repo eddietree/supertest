@@ -1,21 +1,21 @@
 var ObjBase = require("./obj-base");
 
-function Crystal()
-{
+function Crystal() {
+	console.log("Crystal");
 	//ObjBase.call(this);
 };
 
 Crystal.prototype = new ObjBase();
 Crystal.prototype.constructor = Crystal;
 
-/*
-Crystal.prototype.render = function() {
-	console.log("CRSYAL RENDER");
-	//this.prototype.render();
-};*/
 
-Crystal.prototype.update = function() {
-	console.log("CRSYAL UPDATE");
+Crystal.prototype.render = function() {
+	//console.log("CRSYAL RENDER");
+	//this.prototype.render();
 };
 
-module.exports = Crystal;
+Crystal.prototype.update = function() {
+	//console.log("CRSYAL UPDATE");
+};
+
+module.exports = new Crystal();
