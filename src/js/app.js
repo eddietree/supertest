@@ -1,30 +1,38 @@
-var instance = 0;
+var contextStuff = require('./context');
+var context = contextStuff.context;
+var canvas = contextStuff.canvas;
 
-var obj = function()
+var App = function()
 {
 	//console.log("WOW");
 	this.name = "jimmy";
-
-	console.log("instance: " + instance);
-	this.id = instance;
-	instance +=1 ;
 };
 
-obj.prototype.init = function() {
+App.prototype.init = function() {
 	console.log("init!");
 };
 
-obj.prototype.update = function() {
+App.prototype.update = function() {
 	//console.log("update!");
 };
 
-obj.prototype.render = function() {
+App.prototype.clearScreen = function() {
+	context.fillStyle = "#000"
+  context.fillRect(0, 0, window.innerWidth, window.innerHeight);
+};
+
+App.prototype.render = function() {
+	this.clearScreen();
+
+	context.fillStyle = "#f00";
+  	context.fillRect(100,100, 20, 20);
+
 	//console.log("render!");
 };
 
-obj.prototype.hello = function() {
-	console.log("hello!" + this.id);
-};
+App.prototype.resize = function(width,height) {
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+}
 
-
-module.exports = new obj();
+module.exports = new App();
