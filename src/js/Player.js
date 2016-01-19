@@ -1,10 +1,12 @@
-define(function () {
-    //Do setup work here
+var obj = function()
+{
+	console.log("WOW");
+	this.name = "jimmy";
+};
 
-    console.log("HELLOOO");
+obj.prototype.sayHello = function() {
+	console.log(this.name);
+};
 
-    return {
-        color: "black",
-        size: "unisize"
-    }
-});
+
+module.exports = obj;

@@ -44,7 +44,7 @@ gulp.task('watch', function(callback) {
 
     gulp.watch(dirDst+"/*").on('change', reload);
 
-    gulp.watch('*.js', ['browserify']);//.on('change', reload);
+    gulp.watch(['*.js', 'js/*.js'], ['browserify']);//.on('change', reload);
     gulp.watch('*.html', ['html']);//.on('change', reload);
 });
 

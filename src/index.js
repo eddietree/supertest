@@ -1,6 +1,9 @@
 var shell = require("game-shell")()
 
-//var test = require(['js/Player'])();
+var app = require('./js/app');
+//app = new app();
+//var obj = new test();
+//obj.sayHello();
 
 var context
   , player_x = 250
@@ -17,12 +20,16 @@ shell.on("init", function() {
   var canvas = document.createElement("canvas")
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  shell.element.appendChild(canvas)
-  context = canvas.getContext("2d")
+  shell.element.appendChild(canvas);
+  context = canvas.getContext("2d");
+
+  app.init();
 })
 
 //Fired once per game tick
 shell.on("tick", function() {
+
+  app.update();
   if(shell.wasDown("move-left")) {
     player_x -= 1
   }
@@ -50,4 +57,6 @@ shell.on("render", function(frame_time) {
 
   context.fillStyle = "#f00"
   context.fillRect(player_x-10, player_y-10, 20, 20)
+
+  app.render();
 })
