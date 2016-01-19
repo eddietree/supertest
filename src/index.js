@@ -22,16 +22,16 @@ shell.on("tick", function() {
 
   app.update();
   if(shell.wasDown("move-left")) {
-    player_x -= 1;
+    //player_x -= 1;
   }
   if(shell.wasDown("move-right")) {
-    player_x += 1;
+    //player_x += 1;
   }
   if(shell.wasDown("move-up")) {
-    player_y -= 1;
+    //player_y -= 1;
   }
   if(shell.wasDown("move-down")) {
-    player_y += 1;
+    //player_y += 1;
   }
 });
 

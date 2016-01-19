@@ -10,6 +10,12 @@ var App = function()
 
 App.prototype.init = function() {
 	console.log("init!");
+
+	var crystal = require("./crystal");
+	
+	this.crystal = new crystal();
+	console.log(this.crystal);
+	this.crystal.render();
 };
 
 App.prototype.update = function() {
@@ -18,7 +24,7 @@ App.prototype.update = function() {
 
 App.prototype.clearScreen = function() {
 	context.fillStyle = "#000"
-  context.fillRect(0, 0, window.innerWidth, window.innerHeight);
+  	context.fillRect(0, 0, window.innerWidth, window.innerHeight);
 };
 
 App.prototype.render = function() {
