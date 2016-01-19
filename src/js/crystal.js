@@ -20,7 +20,7 @@ function Crystal() {
 	this.bbox = {xl: padding, xr: canvas.width-padding, yt: padding, yb: canvas.height-padding}; // xl is x-left, xr is x-right, yt is y-top, and yb is y-bottom 
 	
 	this.sites = [];
-	for( i = 0; i < 200; i+=1 ) {
+	for( i = 0; i < 256; i+=1 ) {
 		var bbox = this.bbox;
 		var x = bbox.xl + (bbox.xr - bbox.xl) * Math.random();
 		var y = bbox.yt + (bbox.yb - bbox.yt) * Math.random();
@@ -39,12 +39,16 @@ Crystal.prototype.doBounce = function() {
 
 	var TWEEN = require("tween");
 
-	for( var i = 0; i < this.sites.length/4; i+=1 )
+	var skip = Math.round(randBetween(2,3));
+	var startIndex = Math.round(randBetween(1,10));
+	var range = 120.0;
+
+	for( var i = startIndex; i < this.sites.length; i+=skip )
 	{
 		var pos = this.sites[i];
 
 		var obj = new TWEEN.Tween(pos)
-			.to( {x:pos.x+ randBetween(-100.0,100.0), y:pos.y+randBetween(-100.0,100.0)}, randBetween(1000.0,3000.0) )
+			.to( {x:pos.x + randBetween(-range,range), y:pos.y+randBetween(-range,range)}, randBetween(800.0,3500.0) )
 			.easing( TWEEN.Easing.Elastic.Out )
 			.start();
 	}
