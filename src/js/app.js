@@ -1,6 +1,7 @@
 var contextStuff = require('./context');
 var context = contextStuff.context;
 var canvas = contextStuff.canvas;
+var TWEEN = require("tween");
 
 var App = function()
 {
@@ -21,28 +22,27 @@ App.prototype.init = function() {
 };
 
 App.prototype.update = function() {
+
 	this.items.forEach( function(item) {
 		item.update();
 	});
-	//console.log("update!");
 };
 
 App.prototype.clearScreen = function() {
-	context.fillStyle = "#000"
+
+	context.fillStyle = "#111111"
   	context.fillRect(0, 0, window.innerWidth, window.innerHeight);
 };
 
 App.prototype.render = function() {
 
+	TWEEN.update();
 	this.clearScreen();
 
 	// render items
 	this.items.forEach( function(item) {
 		item.render();
 	});
-
-	//context.fillStyle = "#f00";
-  	//context.fillRect(100,100, 20, 20);
 };
 
 App.prototype.resize = function(width,height) {
