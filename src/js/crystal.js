@@ -16,11 +16,11 @@ function Crystal() {
 	this.width = 20.0;
 	this.height = 20.0;
 
-	var padding = 100;
-	this.bbox = {xl: padding, xr: canvas.width-padding, yt: padding, yb: canvas.height-padding}; // xl is x-left, xr is x-right, yt is y-top, and yb is y-bottom 
+	this.padding = 50;
+	this.bbox = {xl: this.padding, xr: canvas.width-this.padding, yt: this.padding, yb: canvas.height-this.padding}; // xl is x-left, xr is x-right, yt is y-top, and yb is y-bottom 
 	
 	this.sites = [];
-	for( i = 0; i < 256; i+=1 ) {
+	for( i = 0; i < 64; i+=1 ) {
 		var bbox = this.bbox;
 		var x = bbox.xl + (bbox.xr - bbox.xl) * Math.random();
 		var y = bbox.yt + (bbox.yb - bbox.yt) * Math.random();
@@ -29,7 +29,9 @@ function Crystal() {
 	}
 
  	this.voronoi = new (require("voronoi"))();
- 	//console.log(diagram);
+ 	this.updateVoronoi();
+
+ 	console.log(this.diagram);
 };
 
 Crystal.prototype = new ObjBase();
@@ -48,10 +50,16 @@ Crystal.prototype.doBounce = function() {
 		var pos = this.sites[i];
 
 		var obj = new TWEEN.Tween(pos)
-			.to( {x:pos.x + randBetween(-range,range), y:pos.y+randBetween(-range,range)}, randBetween(800.0,3500.0) )
+			.to( {x:pos.x + randBetween(-range,range), y:pos.y+randBetween(-range,range)}, randBetween(800.0,4500.0) )
 			.easing( TWEEN.Easing.Elastic.Out )
 			.start();
 	}
+
+	this.padding = 30.0;
+	var obj = new TWEEN.Tween(this)
+			.to( {padding:50.0}, 700.0 )
+			.easing( TWEEN.Easing.Elastic.Out )
+			.start();
 }
 
 Crystal.prototype.init = function() {
@@ -92,9 +100,39 @@ Crystal.prototype.render = function() {
 	context.fillStyle = "#f00";
   	context.fillRect(this.x, this.y, this.width, this.height);
 
-	context.beginPath();
+	
 
 	if (this.diagram ) {
+
+		// draw lines
+		this.diagram.cells.forEach( function(cell) {
+
+			var edges = cell.halfedges;
+			if ( edges.length == 0 )
+				return;
+
+			var firstEdge = edges[0];
+			//var posFirst = firstEdge.site;
+			var posFirst = firstEdge.edge.va;
+			//console.log(posFirst.x);
+
+			context.fillStyle = '#f30';
+			context.beginPath();
+			context.moveTo( posFirst.x, posFirst.y );
+
+			for( var i = 1; i < edges.length; i+=1 ) {
+				//var posCurr = edges[i].site;
+				var posCurr = edges[i].edge.va;
+				context.lineTo( posCurr.x, posCurr.y );
+			}
+
+			context.closePath();
+			context.fill();
+		});
+		
+/*
+		// draw lines
+		context.beginPath();
 		this.diagram.edges.forEach( function(edge) {
 			var pos0 = edge.va;
 			var pos1 = edge.vb;
@@ -104,10 +142,13 @@ Crystal.prototype.render = function() {
 			context.moveTo( pos0.x, pos0.y );
 			context.lineTo( pos1.x, pos1.y );
 		});
+*/
+		// lines
+		context.strokeStyle = '#333333';
+		context.stroke();
 	}
 
-	context.strokeStyle = '#333333';
-	context.stroke();
+	
 };
 
 Crystal.prototype.update = function() {
@@ -115,10 +156,18 @@ Crystal.prototype.update = function() {
 	//var pos = this.sites[0];
 	//pos.x += 2;
 
+	var padding = this.padding;
+	this.bbox = {xl: padding, xr: canvas.width-padding, yt: padding, yb: canvas.height-padding}; // xl is x-left, xr is x-right, yt is y-top, and yb is y-bottom 
+
+	this.updateVoronoi();
+};
+
+
+Crystal.prototype.updateVoronoi = function() {
 	// calculate
 	var diagram = this.voronoi.compute( this.sites, this.bbox);
  	this.diagram = diagram;
-};
+}
 
 var objinstance = new Crystal();
 
